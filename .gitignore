@@ -1,0 +1,15 @@
+## ignore source images directory and files
+images
+images/**/*
+
+## ignore source images test directory and files
+images_test
+images_test/**/*
+
+## ignore target pages directory and files
+pages
+pages/**/*
+
+## ignore tmp
+tmp
+tmp/**/*
