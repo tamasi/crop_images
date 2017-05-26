@@ -1,29 +1,24 @@
 require 'mini_magick'
 
 def resize_and_crop(image, w, h, offset)
-      w_original =image[:width]
-      h_original =image[:height]
+  puts "page: #{offset==0? 'left' : 'right'}"
 
-      puts "***********************************************"
-      puts "dimension: #{image.width}x#{image.height}"
-      puts "***********************************************"
+  image.crop ("#{(w/2).round}x#{h}+#{offset}+0")
+  return image
+end
 
-      image.crop ("#{(w/2).round}x#{h}+#{offset}+0")
-      return image
-    end
-
+def process_image(file, side)
+  image = MiniMagick::Image.open("images/#{file}")
+  offset = (side == 'right')? image.width/2 : 0
+  image = resize_and_crop(image, image.width, image.height, offset)
+  image.write "pages/#{file}_#{side}.tif"
+end
 
 Dir.foreach('images') do |file|
   next if ['.', '..', '.DS_Store'].include? file || File.directory?(file)
   puts file
-  # file = URI.encode(file) # escapar acentos
-  image = MiniMagick::Image.open("images/#{file}")
-  offset = 0
-  image_left = resize_and_crop(image, image.width, image.height, offset)
-  image_left.write  "pages/#{file}_left.tif"
+  puts "*"*65
 
-  image = MiniMagick::Image.open("images/#{file}")
-  offset = (image.width/2).round
-  image_rigth = resize_and_crop(image, image.width, image.height, offset)
-  image_rigth.write  "pages/#{file}_right.tif"
+  process_image(file, 'left')
+  process_image(file, 'right')
 end
