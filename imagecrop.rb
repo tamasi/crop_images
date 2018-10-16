@@ -12,7 +12,7 @@ def process_image(file, side, page_number)
   offset = (side == 'right')? image.width/2 : 0
   image = resize_and_crop(image, image.width, image.height, offset)
   #image.write "pages/#{file}_#{side}.tif"
-  image.write "pages/inhide11-01_#{page_number.to_s.rjust(3,'0')}.tif"
+  image.write "pages/inhide12-02_#{page_number.to_s.rjust(3,'0')}.tif"
 end
 page_number = 000
 Dir.foreach('images') do |file|
